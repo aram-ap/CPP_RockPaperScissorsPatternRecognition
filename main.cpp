@@ -22,9 +22,11 @@ int main() {
 
     bool isRunning = true;
     while (isRunning) {
-        // Clear the console
-        std::cout << "\033[2J\033[1;1H";
-        system("clear");
+        // Clear the console after the first game (we want the welcome message to stay)
+        if (totalGames > 0) {
+            std::cout << "\033[2J\033[1;1H";
+            system("clear");
+        }
 
         // Print stats
         printStats();
