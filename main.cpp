@@ -8,12 +8,12 @@ int playerWins = 0;
 int computerWins = 0;
 int totalGames = 0;
 
-const int MAX_MATCHES = 18;
+const int MAX_MATCHES = 5;
 const int MIN_MATCHES = 1;
 const int MAX_SEARCH_SIZE = 3000;
 
 int main() {
-    std::cout << "\033[2J\033[1;1H";  // For Unix-based systems
+    std::cout << "\033[2J\033[1;1H";
     system("clear");
 
     cout << "Welcome to Rock, Paper, Scissors! If you didn't know already, this game learns from your patterns to beat you over time!" << endl;
@@ -23,7 +23,7 @@ int main() {
 
     bool isRunning = true;
     while (isRunning) {
-        std::cout << "\033[2J\033[1;1H";  // For Unix-based systems
+        std::cout << "\033[2J\033[1;1H";
         system("clear");
         printStats();
         cout << endl;
@@ -118,37 +118,21 @@ vector<Move> getPlayerMove() {
             return {Quit};
         }
 
-        if (playerInput.length() > 1) {
-            for (int i = 0; i < playerInput.size(); i++) {
-                auto c = playerInput[i];
-                if (c == '1') {
-                    move = Rock;
-                    inputs.push_back(move);
-                } else if (c == '2') {
-                    move = Paper;
-                    inputs.push_back(move);
-                } else if (c == '3') {
-                    move = Scissors;
-                    inputs.push_back(move);
-                }
-            }
-        } else {
-            if (playerInput == "1") {
+        for (int i = 0; i < playerInput.size(); i++) {
+            auto c = playerInput[i];
+            if (c == '1') {
                 move = Rock;
-            } else if (playerInput == "2") {
+                inputs.push_back(move);
+            } else if (c == '2') {
                 move = Paper;
-            } else if (playerInput == "3") {
+                inputs.push_back(move);
+            } else if (c == '3') {
                 move = Scissors;
-            } else if (playerInput == "-1") {
-                move = Quit;
-            }
-            else {
+                inputs.push_back(move);
+            } else {
                 cout << "Invalid move. Please try again." << endl;
-                return {Invalid};
             }
-            inputs.push_back(move);
         }
-
     }
 
     return inputs;
