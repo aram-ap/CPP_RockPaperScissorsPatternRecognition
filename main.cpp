@@ -25,13 +25,17 @@ int main() {
     while (isRunning) {
         std::cout << "\033[2J\033[1;1H";
         system("clear");
+
+        // Print stats
         printStats();
         cout << endl;
 
+        // Print results of last game
         if (lastMove != Invalid) {
             printWinner(lastMove, computerMove);
         }
 
+        // Get player moves. Typically only one move is returned, but players can chain moves together
         moves = getPlayerMove();
 
         for (const Move &move : moves) {
@@ -44,6 +48,8 @@ int main() {
             }
 
             computerMove = getComputerMove();
+
+            // Update player moves after computer move is determined to avoid cheating
             playerMoves.push_back(move);
 
             int winner = getWinner(move, computerMove);
@@ -71,14 +77,21 @@ Move getBeatingMove(Move moveToBeat) {
     }
 }
 
+/**
+ * Note: This function is not optimized and won't work well for large search sizes
+ * @param searchSize the size of the pattern to search for
+ * @return The ideal move if a pattern is found, Inconclusive otherwise
+ */
 Move findPattern(const int searchSize) {
+    // Get the last searchSize moves
     vector<Move> pattern;
-    for (int j = playerMoves.size() - 1; j >= max(static_cast<int>(playerMoves.size())-1-searchSize, 0); j--) {
+    for (int j = static_cast<int>(playerMoves.size()) - 1; j >= max(static_cast<int>(playerMoves.size())-1-searchSize, 0); j--) {
         pattern.insert(pattern.begin(), playerMoves[j]);
     }
 
-    int matches = 0;
+    // For every value in player moves, check if the pattern is found
     for (int i = max(static_cast<int>(playerMoves.size()) - 1 - searchSize, 0); i >= min(searchSize, MAX_SEARCH_SIZE); i--) {
+        // Get the pattern from i to i-searchSize
         vector<Move> subPattern;
         for (int j = i; j >= max(i-searchSize, 0); j--) {
             subPattern.insert(subPattern.begin(), playerMoves[j]);
@@ -95,6 +108,7 @@ Move findPattern(const int searchSize) {
 }
 
 Move getComputerMove() {
+    // Check for patterns of decreasing size
     for (int i = MAX_MATCHES; i >= MIN_MATCHES ; i--) {
         Move patternMove  = findPattern(i);
         if (patternMove != Inconclusive) {
@@ -102,6 +116,7 @@ Move getComputerMove() {
         }
     }
 
+    // If no pattern is found, return a random move
     return static_cast<Move>(rand() % 3);
 }
 
@@ -167,7 +182,7 @@ void printWinner(Move playerMove, Move computerMove) {
 }
 
 void printStats() {
-    cout << "Player: " << playerWins << ", Computer: " << computerWins << ", Total Games: " << totalGames << endl;
+    cout << "| Player: " << playerWins << " | Computer: " << computerWins << " | Total Games: " << totalGames << " |" << endl;
 }
 
 string moveToString(Move move) {
