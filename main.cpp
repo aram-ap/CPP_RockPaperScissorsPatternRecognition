@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 #include "main.h"
 
 using namespace std;
@@ -59,8 +60,6 @@ int main() {
                 computerWins++;
         }
     }
-
-    return 0;
 }
 
 Move getBeatingMove(const Move moveToBeat) {
@@ -72,7 +71,7 @@ Move getBeatingMove(const Move moveToBeat) {
         case Scissors:
             return Rock;
         default:
-            return static_cast<Move>(rand() % 3);
+            return static_cast<Move>(random() % 3);
     }
 }
 
@@ -114,7 +113,7 @@ Move getComputerMove() {
     }
 
     // If no pattern is found, return a random move
-    return static_cast<Move>(rand() % 3);
+    return static_cast<Move>(random() % 3);
 }
 
 vector<Move> getPlayerMove() {
@@ -175,13 +174,9 @@ void printStats() {
 }
 
 string moveToString(const Move move) {
-    if (move == Rock) {
-        return "Rock";
-    } else if (move == Paper) {
-        return "Paper";
-    } else {
-        return "Scissors";
-    }
+    if (move == Rock) { return "Rock"; }
+    if (move == Paper) { return "Paper"; }
+    return "Scissors";
 }
 
 string getMoveString(const std::vector<Move> &moves) {
