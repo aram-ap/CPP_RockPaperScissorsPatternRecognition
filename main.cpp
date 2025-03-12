@@ -71,7 +71,7 @@ Move getBeatingMove(const Move moveToBeat) {
         case Scissors:
             return Rock;
         default:
-            return static_cast<Move>(random() % 3);
+            return static_cast<Move>(random() % 3 + 1);
     }
 }
 
@@ -113,7 +113,7 @@ Move getComputerMove() {
     }
 
     // If no pattern is found, return a random move
-    return static_cast<Move>(random() % 3);
+    return static_cast<Move>(random() % 3 + 1);
 }
 
 vector<Move> getPlayerMove() {
