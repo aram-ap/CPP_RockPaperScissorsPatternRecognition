@@ -157,17 +157,12 @@ int getWinner(Move playerMove, Move computerMove) {
     if (playerMove == Invalid || playerMove == Inconclusive) {
         return 0;
     }
-    if (playerMove == computerMove) {
-        return 0;
-    } else if (playerMove == Rock && computerMove == Scissors) {
-        return 1;
-    } else if (playerMove == Paper && computerMove == Rock) {
-        return 1;
-    } else if (playerMove == Scissors && computerMove == Paper) {
-        return 1;
-    } else {
-        return -1;
-    }
+    if (playerMove == computerMove) { return 0; }
+    if (playerMove == Rock && computerMove == Scissors) { return 1; }
+    if (playerMove == Paper && computerMove == Rock) { return 1; }
+    if (playerMove == Scissors && computerMove == Paper) { return 1; }
+
+    return -1;
 }
 
 void printWinner(Move playerMove, Move computerMove) {
