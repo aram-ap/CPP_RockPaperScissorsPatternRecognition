@@ -15,14 +15,15 @@ const int MAX_SEARCH_SIZE = 3000;
 int main() {
     std::cout << "\033[2J\033[1;1H";
     system("clear");
-
     cout << "Welcome to Rock, Paper, Scissors! If you didn't know already, this game learns from your patterns to beat you over time!" << endl;
+
     vector<Move> moves;
     Move computerMove = Invalid;
     Move lastMove = Invalid;
 
     bool isRunning = true;
     while (isRunning) {
+        // Clear the console
         std::cout << "\033[2J\033[1;1H";
         system("clear");
 
@@ -52,8 +53,7 @@ int main() {
             // Update player moves after computer move is determined to avoid cheating
             playerMoves.push_back(move);
 
-            int winner = getWinner(move, computerMove);
-            if (winner > 0)
+            if (const int winner = getWinner(move, computerMove); winner > 0)
                 playerWins++;
             else if (winner < 0)
                 computerWins++;
