@@ -8,16 +8,15 @@ int playerWins = 0;
 int computerWins = 0;
 int totalGames = 0;
 
-const int MAX_MATCHES = 5;
-const int MIN_MATCHES = 1;
-const int MAX_SEARCH_SIZE = 3000;
+constexpr int MAX_MATCHES = 5;
+constexpr int MIN_MATCHES = 1;
+constexpr int MAX_SEARCH_SIZE = 3000;
 
 int main() {
     std::cout << "\033[2J\033[1;1H";
     system("clear");
     cout << "Welcome to Rock, Paper, Scissors! If you didn't know already, this game learns from your patterns to beat you over time!" << endl;
 
-    vector<Move> moves;
     Move computerMove = Invalid;
     Move lastMove = Invalid;
 
@@ -37,9 +36,8 @@ int main() {
         }
 
         // Get player moves. Typically only one move is returned, but players can chain moves together
-        moves = getPlayerMove();
 
-        for (const Move &move : moves) {
+        for (vector<Move> moves = getPlayerMove(); const Move &move : moves) {
             totalGames++;
             lastMove = move;
 
@@ -63,7 +61,7 @@ int main() {
     return 0;
 }
 
-Move getBeatingMove(Move moveToBeat) {
+Move getBeatingMove(const Move moveToBeat) {
     switch (moveToBeat) {
         case Rock:
             return Paper;
@@ -98,7 +96,6 @@ Move findPattern(const int searchSize) {
 
         // Check if subPattern is equal to pattern
         if (subPattern == pattern) {
-            // cout << "Pattern found! " << getMoveString(pattern) << endl;
             return getBeatingMove(playerMoves[min(i+1, static_cast<int>(playerMoves.size())-1)]);
         }
     }
@@ -109,8 +106,7 @@ Move findPattern(const int searchSize) {
 Move getComputerMove() {
     // Check for patterns of decreasing size
     for (int i = MAX_MATCHES; i >= MIN_MATCHES ; i--) {
-        Move patternMove  = findPattern(i);
-        if (patternMove != Inconclusive) {
+        if (const Move patternMove  = findPattern(i); patternMove != Inconclusive) {
             return patternMove;
         }
     }
@@ -132,8 +128,7 @@ vector<Move> getPlayerMove() {
             return {Quit};
         }
 
-        for (int i = 0; i < playerInput.size(); i++) {
-            auto c = playerInput[i];
+        for (const char c : playerInput) {
             if (c == '1') {
                 move = Rock;
                 inputs.push_back(move);
@@ -152,7 +147,7 @@ vector<Move> getPlayerMove() {
     return inputs;
 }
 
-int getWinner(Move playerMove, Move computerMove) {
+int getWinner(const Move playerMove, const Move computerMove) {
     if (playerMove == Invalid || playerMove == Inconclusive) return 0;
 
     if (playerMove == computerMove) { return 0; }
@@ -163,9 +158,8 @@ int getWinner(Move playerMove, Move computerMove) {
     return -1;
 }
 
-void printWinner(Move playerMove, Move computerMove) {
-    int winner = getWinner(playerMove, computerMove);
-    if (winner == 0) {
+void printWinner(const Move playerMove, const Move computerMove) {
+    if (const int winner = getWinner(playerMove, computerMove); winner == 0) {
         cout << "It's a tie! You both chose " << moveToString(playerMove) << "." << endl;
     } else if (winner == 1) {
         cout << "You win! " << moveToString(playerMove) << " beats " << moveToString(computerMove) << "." << endl;
@@ -178,7 +172,7 @@ void printStats() {
     cout << "| Player: " << playerWins << " | Computer: " << computerWins << " | Total Games: " << totalGames << " |" << endl;
 }
 
-string moveToString(Move move) {
+string moveToString(const Move move) {
     if (move == Rock) {
         return "Rock";
     } else if (move == Paper) {
@@ -188,8 +182,8 @@ string moveToString(Move move) {
     }
 }
 
-string getMoveString(std::vector<Move> moves) {
-    string moveString = "";
+string getMoveString(const std::vector<Move> &moves) {
+    string moveString;
     for (const Move &move : moves) {
         switch (move) {
             case Rock:

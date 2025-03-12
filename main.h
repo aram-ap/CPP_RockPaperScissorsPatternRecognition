@@ -22,6 +22,6 @@ void printWinner(Move playerMove, Move computerMove);
 void printStats();
 void updateStats(int winner, Move playerMove, Move computerMove);
 std::string moveToString(Move move);
-std::string getMoveString(std::vector<Move> moves);
+std::string getMoveString(const std::vector<Move> &moves);
 
 #endif //MAIN_H
