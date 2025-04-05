@@ -10,7 +10,7 @@ int computerWins = 0;
 int totalGames = 0;
 
 constexpr int MAX_MATCHES = 5;
-constexpr int MIN_MATCHES = 1;
+constexpr int MIN_MATCHES = 2;
 constexpr int MAX_SEARCH_SIZE = 3000;
 
 int main() {
@@ -113,7 +113,7 @@ Move getComputerMove() {
     }
 
     // If no pattern is found, return a random move
-    return static_cast<Move>(random() % 3 + 1);
+    return static_cast<Move>(random() % 3);
 }
 
 vector<Move> getPlayerMove() {
@@ -176,7 +176,8 @@ void printStats() {
 string moveToString(const Move move) {
     if (move == Rock) { return "Rock"; }
     if (move == Paper) { return "Paper"; }
-    return "Scissors";
+    if (move == Scissors) { return "Scissors"; }
+    return "Inconclusive";
 }
 
 string getMoveString(const std::vector<Move> &moves) {
